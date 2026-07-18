@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2><a href="{{ url_for('search_employees') }}"> Поиск сотрудника </a> </h2>
+  <h2><a href="{{ url_for('sort_employees') }}"> Сортировка по зарплате (по возрастанию) </a> </h2>
+  <h2>Все сотрудники</h2>
+    {%- for employee in employees %}
+      <ul>
+        <li>
+        ID: {{ employee.id }} |
+        ФИО: {{ employee.full_name }} |
+        Должность: {{ employee.position }} |
+        Дата приема на работу: {{ employee.hire_date }} |
+        Зарплата: {{ employee.salary }} |
+        ID начальника: {{ employee.manager_id }}
+        </li>
+        <li>
+        {% if employee.manager %}
+          <a href="{{ url_for('employees_by_manager', manager_id=employee.manager_id) }}"> Начальник: {{ employee.manager.full_name }}</a>
+          <a href="{{ url_for('change_manager', employee_id=employee.id) }}"> Изменить руководителя </a> </h2>
+        {% else %}
+          Нет начальника
+        {% endif %}
+        </li>
+      </ul>
+      <hr>
+    {%- endfor %}
+{% endblock %}
